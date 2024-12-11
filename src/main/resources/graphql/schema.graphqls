@@ -1,0 +1,49 @@
+scalar PositiveFloat
+scalar CountryCode
+scalar DateTime
+
+type Query {
+    accounts:[BankAccountType]
+    accountById(accountId: ID):BankAccountType
+}
+
+type Mutation {
+    addAccount( account: BankAccountInput): Boolean
+    editAccount( account : BankAccountInput): BankAccountType
+    deleteAccount(accountId: ID): Boolean
+}
+
+type BankAccountType {
+    id: ID
+    client: ClientType
+    currency: Currency
+    country: CountryCode
+    balance: Float
+    status: String
+    transferLimit:  PositiveFloat
+    accountCreateDate: String
+}
+
+type ClientType {
+    id : ID
+    firstName: String
+    middleName: String
+    lastName: String
+    country: CountryCode
+}
+
+input BankAccountInput {
+    id: ID
+    clientId: Int
+    currency: Currency
+    country: CountryCode
+    balance: Float
+    status: String
+    transferLimit:  PositiveFloat
+    accountCreateDate: DateTime
+}
+
+
+enum Currency{
+    EUR, USD, CLP
+}
