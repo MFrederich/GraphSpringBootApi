@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "BankAccount")
 public class BankAccount {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private  Long id;
 
     @Column

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class BankService {
 
     private static List<Client> clients = Arrays.asList(
-            new Client(100L,  "John", "T.", "Doe", "US"),
+            new Client(100L, "John", "T.", "Doe", "US"),
             new Client(101L, "Emma", "B.", "Smith", "CA"),
             new Client(102L, "James", "R.", "Brown", "IN"),
             new Client(103L, "Olivia", "S.", "Johnson", "UK"),
@@ -29,8 +29,8 @@ public class BankService {
 
     private final BankAccountRepository bankAccountRepository;
 
-    public List<BankAccount> getAccounts() {
-        return bankAccountRepository.findAll();
+    public List<BankAccount> getAccounts(String accountStatus) {
+        return bankAccountRepository.findByStatus(accountStatus);
     }
 
     public BankAccount getAccountById(Long accountId) {
@@ -50,15 +50,15 @@ public class BankService {
                 .findFirst().orElse(null);
     }
 
-    public void save(BankAccount bankAccount){
+    public void save(BankAccount bankAccount) {
         if (validClient(bankAccount)) {
             bankAccountRepository.save(bankAccount);
-        }else {
-            throw new ClientNotFoundException("");
+        } else {
+            throw new ClientNotFoundException("client not found  id:" + bankAccount.getClientId());
         }
     }
 
-    public BankAccount edit(BankAccount bankAccount){
+    public BankAccount edit(BankAccount bankAccount) {
         if (validClient(bankAccount)) {
             bankAccountRepository.save(bankAccount);
             return bankAccount;
@@ -66,14 +66,14 @@ public class BankService {
         throw new ClientNotFoundException("");
     }
 
-    public Boolean delete(Long accountId){
-       try{
-           bankAccountRepository.delete(getAccountById(accountId));
-           return true;
-       } catch (AccountNotFoundException ex){
-           log.error("error deleting %s", accountId);
-           return false;
-       }
+    public Boolean delete(Long accountId) {
+        try {
+            bankAccountRepository.delete(getAccountById(accountId));
+            return true;
+        } catch (AccountNotFoundException ex) {
+            log.error("error deleting %s", accountId);
+            return false;
+        }
     }
 
     private boolean validClient(BankAccount account) {

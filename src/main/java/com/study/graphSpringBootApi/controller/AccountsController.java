@@ -5,10 +5,7 @@ import com.study.graphSpringBootApi.entity.BankAccount;
 import com.study.graphSpringBootApi.service.BankService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.BatchMapping;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.*;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -22,9 +19,9 @@ public class AccountsController {
     private final BankService bankService;
 
     @QueryMapping
-    List<BankAccount> accounts() {
+    List<BankAccount> accounts(@ContextValue String accountStatus) {
         log.info("Getting Accounts ");
-        return bankService.getAccounts();
+        return bankService.getAccounts(accountStatus);
     }
 
     @QueryMapping
